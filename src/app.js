@@ -14,5 +14,11 @@ app.use(express.urlencoded({extended: true, limit:"16kb"})) // for data from the
 app.use(express.static("public")) // for public resources like favicons, images.
 app.use(cookieParser())
 
+//routes import
+import userRouter from './routes/user.routes.js'
+
+//routes declaration
+app.use("/api/v1/users", userRouter)
+
 
 export {app}
