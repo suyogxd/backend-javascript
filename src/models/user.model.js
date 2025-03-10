@@ -49,7 +49,7 @@ const userSchema = new Schema({
 userSchema.pre("save", async function (next) {  // () => {} not used because it doesnot have access of 'this' context.
                                                 // async because encryption ma time lagxa hai       
     if(this.isModified("password")){            // we encrypt only when password field is changed or updated.
-        this.password = bcrypt.hash(this.password, 10)
+        this.password = await bcrypt.hash(this.password, 10)
         next()
     }else{
         return next()
