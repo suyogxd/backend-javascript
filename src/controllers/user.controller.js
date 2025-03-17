@@ -17,7 +17,7 @@ const registerUser = asyncHandler( async (req, res) => {
 
     // 1. //
     const {username, fullname, email, password} = req.body
-    console.log("email: ",email)
+    // console.log("email: ",email)
 
     // 2. //
 
@@ -33,7 +33,7 @@ const registerUser = asyncHandler( async (req, res) => {
 
     // 3. //
 
-    const existedUser = User.findOne({
+    const existedUser = await User.findOne({
         $or: [{username}, {email}]
     })
 
@@ -41,10 +41,19 @@ const registerUser = asyncHandler( async (req, res) => {
         throw new ApiError(409, "User with email or username already exists")
     }
 
+    // console.log(req.files);
+
     // 4. //
     // req.files multer le dinxa so paila multer configured hunuparxa
     const avatarLocalPath = req.files?.avatar[0]?.path
-    const coverImageLocalPath = req.files?.coverImage[0]?.path
+    // const coverImageLocalPath = req.files?.coverImage[0]?.path
+
+    // mathiko coverImageLocalPath wala code le -- if postman ma coverImage field unselect garera data send garexi cannot read properties of undefined bhanera aauthyo so we wrote below code to solve this bug.
+
+    let coverImageLocalPath;
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0){
+        coverImageLocalPath = req.files.coverImage[0].path
+    }
 
     if (!avatarLocalPath){
         throw new ApiError(400, "avatar is required")
