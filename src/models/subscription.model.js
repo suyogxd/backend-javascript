@@ -11,5 +11,6 @@ const subscriptionSchema = new mongoose.Schema({
     }
 },{timestamps: true})
 
+// example, i subscribed a youtube channel named "FreeCodeCamp" then i will be the subscriber and "FreeCodeCamp" will be the channel.
 
 export const Subscription = mongoose.model("Subscription", subscriptionSchema)
